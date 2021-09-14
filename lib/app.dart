@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gaadi/routes.dart';
 
 import 'api/api.dart';
 import 'onboarding.dart';
@@ -20,30 +21,26 @@ class _ApplicationState extends State<Application> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
     return MaterialApp(
-      title: 'GAADI',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Color(0xFF6B48FF),
-        scaffoldBackgroundColor: Colors.white,
-        dividerColor: Colors.transparent,
-      ),
-      home: OnBoarding(),
-      routes: <String, WidgetBuilder>{
-        '/HomePage': (BuildContext context) => HomePage(),
-        // '/AllAppointment': (BuildContext context) => AllAppointment(),
-      },
-    );
+        title: 'GAADI',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Color(0xFF6B48FF),
+          scaffoldBackgroundColor: Colors.white,
+          dividerColor: Colors.transparent,
+        ),
+        initialRoute: SplashScreen.routeName,
+        routes: routes);
   }
 }
 
 class SplashScreen extends StatefulWidget {
+  static String routeName = "/splash";
   @override
   _SplashScreenState createState() => new _SplashScreenState();
 }
@@ -56,12 +53,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 3);
+    var _duration = new Duration(seconds: 2);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/HomePage');
+    Navigator.of(context).pushReplacementNamed(OnBoarding.routeName);
   }
 
   @override
@@ -72,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
         width: MediaQuery.of(context).size.width,
         child: new Center(
           child: new Image.asset(
-            'assets/images/splash.png',
+            'assets/images/_board3.png',
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

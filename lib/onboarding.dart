@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/auth/canvas.dart';
+import 'package:gaadi/screens/auth/login.dart';
 import 'carousel/slide_dots.dart';
 import 'carousel/slide_item.dart';
 import '../models/carousel_details.dart';
 import 'screens/home/homepage.dart';
 
-const darkBlue = Color(0xFF265E9E);
-
 class OnBoarding extends StatefulWidget {
+  static String routeName = "/boarding";
+
   @override
   _OnBoardingState createState() => _OnBoardingState();
 }
@@ -53,6 +57,7 @@ class _OnBoardingState extends State<OnBoarding> {
               alignment: AlignmentDirectional.center,
               children: <Widget>[
                 PageView.builder(
+                  physics: BouncingScrollPhysics(),
                   onPageChanged: _onPageChanged,
                   controller: _pageController,
                   scrollDirection: Axis.horizontal,
@@ -84,24 +89,28 @@ class _OnBoardingState extends State<OnBoarding> {
                   ],
                 ),
                 Align(
-                  alignment: Alignment.bottomRight,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ));
-                    },
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                        fontFamily: 'PoppinsMedium',
-                        color: darkBlue,
-                      ),
-                    ),
-                  ),
-                )
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                kPrimaryColor)),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, Canvas.routeName);
+                          // Navigator.pushReplacement(context, Canvas());
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 30),
+                          child: Text(
+                            "Get Started",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )))
               ],
             ),
           ),
