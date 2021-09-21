@@ -4,16 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/routes.dart';
 import 'package:gaadi/screens/auth/login.dart';
-import 'package:gaadi/screens/auth/logintest.dart';
-import 'package:gaadi/screens/auth/otp.dart';
 import 'package:gaadi/screens/auth/register.dart';
-import 'package:gaadi/screens/auth/registertest.dart';
 import 'package:gaadi/screens/home/homepage.dart';
 import 'package:gaadi/widgets/roundedInput.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'otptest.dart';
+import 'otp.dart';
 
 class Canvas extends StatefulWidget {
   static String routeName = "/Canvas";
@@ -41,9 +38,9 @@ class _CanvasState extends State<Canvas> {
   }
 
   late List<Widget> _screens = [
-    LoginTest(changeIndex: changeIndex),
-    RegisterTest(changeIndex: changeIndex),
-    OTPTest(changeIndex: changeIndex),
+    Login(changeIndex: changeIndex),
+    Register(changeIndex: changeIndex),
+    OTP(changeIndex: changeIndex),
   ];
 
   @override
@@ -243,74 +240,68 @@ class _CanvasState extends State<Canvas> {
   Widget build(BuildContext context) {
     List<Map<String, double>> _settings = [
       {
-        "headHeight": 2.0,
-        "headAnimation": 0,
-        "bottomAnimation": 300,
-        "containerHeight": 2.1,
-        "imageHeight": 90.0,
-        "imageWidth": 252.0,
+        "headHeight": 3,
+        "containerHeight": 1.8,
       },
       {
-        "headHeight": 2.5,
-        "headAnimation": 300,
-        "bottomAnimation": 0,
-        "containerHeight": 1.74,
-        "imageHeight": 60.0,
-        "imageWidth": 180.0,
+        "containerHeight": 1.3,
       },
       {
         "headHeight": 2.0,
-        "headAnimation": 0,
-        "bottomAnimation": 300,
-        "containerHeight": 2.1,
-        "imageHeight": 90.0,
-        "imageWidth": 252.0,
+        "containerHeight": 1.8,
       },
     ];
+
+
     print(_settings[currentIndex]);
-    return Form(
-        key: _formKey,
-        child: Scaffold(
+    return  Scaffold(
             body: ModalProgressHUD(
                 inAsyncCall: showSnipper,
-                child: Container(
+                child:  Container(
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     color: Theme.of(context).primaryColor,
-                    child: SingleChildScrollView(
-                        child: GestureDetector(
-                      onTap: () {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                      },
-                      child: Column(children: [
-                        AnimatedContainer(
-                          height: MediaQuery.of(context).size.height /
-                              _settings[currentIndex]["headHeight"]!,
-                          duration: new Duration(milliseconds: 400),
-                          child: Image(
-                            alignment: Alignment.center,
-                            height: _settings[currentIndex]["imageHeight"]!,
-                            width: _settings[currentIndex]["imageWidth"]!,
-                            image: AssetImage('assets/icons/logo.png'),
-                          ),
-                        ),
-                        AnimatedContainer(
-                            height: MediaQuery.of(context).size.height /
-                                _settings[currentIndex]["containerHeight"]!,
-                            duration: new Duration(milliseconds: 0),
-                            width: MediaQuery.of(context).size.width / 1.1,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(35)),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: _screens[currentIndex])),
-                      ]),
-                    ))))));
+                    child: Center(
+                      child: SingleChildScrollView(
+                          child: GestureDetector(
+                        onTap: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                        },
+                        child:
+                        Column(children: [
+                          if (currentIndex !=1)
+                            ...[AnimatedContainer(
+                                height: MediaQuery.of(context).size.height /2.8,
+                                duration: new Duration(milliseconds: 200),
+                                child:
+                                Visibility(
+                                  visible: currentIndex !=1? true: false,
+                                  child:
+                                  Image(
+                                    alignment: Alignment.center,
+                                    height: 90,
+                                    width: 252,
+                                    image: AssetImage('assets/icons/logo.png'),
+                                  ),
+                                )),
+                          ],
+                          Container(
+                              height: MediaQuery.of(context).size.height /
+                                  _settings[currentIndex]["containerHeight"]!,
+                              width: MediaQuery.of(context).size.width / 1.1,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(35)),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: _screens[currentIndex])),
+                        ]),
+                      )),
+                    ))));
   }
 }

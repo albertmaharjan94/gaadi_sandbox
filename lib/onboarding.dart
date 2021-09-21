@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/screens/auth/canvas.dart';
-import 'package:gaadi/screens/auth/login.dart';
+import 'package:gaadi/screens/auth/bak/login.dart';
 import 'carousel/slide_dots.dart';
 import 'carousel/slide_item.dart';
 import '../models/carousel_details.dart';
