@@ -1,35 +1,83 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CallApi {
-  final String _url =
-      'http://192.168.0.187:2020/api/';
+import 'api_exception.dart';
 
-  postData(data, apiUrl) async {
-    var fullUrl = _url + apiUrl;
-    return await http.post(fullUrl, body: data);
+
+class API {
+
+  final String domain = "http://10.0.2.2:3000/api";
+
+  Future getData(String apiUrl) async {
+    dynamic responseJson;
+    try {
+      final response =
+          await http.get(Uri.parse(domain + apiUrl), headers: _setHeader());
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
   }
 
-  postDataWithHeader(data, apiUrl) async {
-    var fullUrl = _url + apiUrl;
-    return await http.post(fullUrl, body: data, headers: _setHeaders());
-  }
-
-  postDataWithToken(data, apiUrl) async {
-    var fullUrl = _url + apiUrl;
+  Future getWithToken(apiUrl) async {
+    dynamic responseJson;
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var token = localStorage.getString('token');
-    return await http.post(fullUrl, body: json.encode(data), headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + token
-    });
+    try {
+      final response = await http.get(domain + apiUrl, headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
   }
 
-  getData(apiUrl) async {
-    var fullUrl = _url + apiUrl;
-    return await http.get(fullUrl, headers: _setHeader());
+  Future postData(data, apiUrl) async {
+    dynamic responseJson;
+    try {
+      final response = await http.post(domain + apiUrl, body: data);
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  Future postDataWithHeader(data, apiUrl) async {
+    dynamic responseJson;
+    try {
+      final response =
+          await http.post(domain + apiUrl, body: data, headers: _setHeaders());
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  Future postDataWithToken(data, apiUrl) async {
+    dynamic responseJson;
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    try {
+      final response = await http.post(domain + apiUrl, body: data, headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+      });
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
   }
 
   _setHeaders() => {
@@ -42,21 +90,28 @@ class CallApi {
         'Accept': 'application/json',
       };
 
-  getWithToken(apiUrl) async {
-    var fullUrl = _url + apiUrl;
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var token = localStorage.getString('token');
-    // print('token from api $token');
-    return await http.get(fullUrl, headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    });
-  }
-
   logout() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.remove('user');
     localStorage.remove('token');
+  }
+
+  @visibleForTesting
+  dynamic returnResponse(http.Response response) {
+    switch (response.statusCode) {
+      case 200:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
+      case 400:
+        throw BadRequestException(response.body.toString());
+      case 401:
+      case 403:
+        throw UnauthorisedException(response.body.toString());
+      case 500:
+      default:
+        throw FetchDataException(
+            'Error occured while communication with server' +
+                ' with status code : ${response.statusCode}');
+    }
   }
 }
