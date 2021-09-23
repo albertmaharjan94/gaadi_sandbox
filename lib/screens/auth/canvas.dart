@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,214 +32,51 @@ class _CanvasState extends State<Canvas> {
   var showSnipper = false;
   var playerIddd;
   final _formKey = GlobalKey<FormState>();
-
+  bool started = false;
   int currentIndex = 0;
 
   void changeIndex(index) {
     setState(() => currentIndex = index);
   }
 
+  void changeSpinner(spinner) {
+    setState(() => showSnipper = spinner);
+  }
+
   late List<Widget> _screens = [
-    Login(changeIndex: changeIndex),
-    Register(changeIndex: changeIndex),
-    OTP(changeIndex: changeIndex),
+    Login(changeIndex: changeIndex,changeSpinner: changeSpinner),
+    Register(changeIndex: changeIndex, changeSpinner: changeSpinner),
+    OTP(changeIndex: changeIndex, changeSpinner: changeSpinner),
   ];
 
   @override
   void initState() {
     super.initState();
-    // getDeviceToken();
   }
 
-//   Future<bool> check() async {
-//     var connectivityResult = await (Connectivity().checkConnectivity());
-//     if (connectivityResult == ConnectivityResult.mobile) {
-//       return true;
-//     } else if (connectivityResult == ConnectivityResult.wifi) {
-//       return true;
-//     }
-//     return false;
-//   }
+  Future<bool> check() async {
+    SharedPreferences sharedUser = await SharedPreferences.getInstance();
+    String screen = sharedUser.getString('Register');
+    try{
+      print("states" + screen + " " + started.toString());
+      if(screen == "1" && started == false){
+        changeIndex(OTP.routeIndex);
+        setState(() {
+          started = true;
+        });
+      }
+    }catch(e){
+      return false;
+    }
 
-//   getDeviceToken() async {
-//     check().then((intenet) async {
-//       if (intenet != null && intenet) {
-//         // Internet Present Case
-//         OneSignal.shared
-//             .setInFocusDisplayType(OSNotificationDisplayType.notification);
-
-//         await OneSignal.shared
-//             .promptUserForPushNotificationPermission(fallbackToSettings: true);
-
-//         var status = await OneSignal.shared.getPermissionSubscriptionState();
-
-//         var playerId = status.subscriptionStatus.userId;
-//         playerIddd = playerId;
-//         print('device token is $playerIddd');
-//         SharedPreferences localStorage = await SharedPreferences.getInstance();
-//         localStorage.setString('device_token', playerId);
-//       } else {
-//         showDialog(
-//           builder: (context) => AlertDialog(
-//             title: Text('Internet connection'),
-//             content: Text('Check your internet connection'),
-//             actions: <Widget>[
-//               FlatButton(
-//                 onPressed: () async {
-//                   Navigator.pop(context);
-//                   Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => Canvas(),
-//                       ));
-//                 },
-//                 child: Text('OK'),
-//               )
-//             ],
-//           ),
-//           context: context,
-//         );
-//       }
-//     });
-//   }
-
-  void _Canvas(data) async {
-//     check().then((intenet) async {
-//       if (intenet != null && intenet) {
-//         setState(() {
-//           showSnipper = true;
-//         });
-//         SharedPreferences localStorage = await SharedPreferences.getInstance();
-//         var isFrom = localStorage.getString('isFrom');
-//         var navigate;
-//         navigate = HomePage.routeName;
-//         var deviceToken = playerIddd;
-//         var checkDeviceToken = localStorage.getBool('deviceToken');
-//         if (checkDeviceToken == true) {
-//           data['device_token'] = deviceToken;
-//         }
-//         var res;
-//         var body;
-//         var resData;
-//         var userId;
-//         try {
-//           res = await CallApi().postData(data, 'Canvas');
-//           body = json.decode(res.body);
-//           resData = body['data'];
-//           if (body['success'] == true) {
-//             if (body['data']['is_verified'] == 1) {
-//               _phoneController.text = '';
-//               _passwordController.text = '';
-//               SharedPreferences localStorage =
-//                   await SharedPreferences.getInstance();
-//               localStorage.setString('token', resData['token']);
-//               localStorage.setString('user', json.encode(resData));
-//               var abc = localStorage.getString('token');
-//               Navigator.pushReplacement(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => navigate,
-//                   ));
-//             } else {
-//               showDialog(
-//                 builder: (context) => AlertDialog(
-//                   title: Text('Canvas Error'),
-//                   content: Text('Please verify your account'),
-//                   actions: <Widget>[
-//                     FlatButton(
-//                       onPressed: () async {
-//                         _phoneController.text = '';
-//                         _passwordController.text = '';
-//                         SharedPreferences localStorage =
-//                             await SharedPreferences.getInstance();
-//                         localStorage.setString('token', resData['token']);
-//                         localStorage.setString('user', json.encode(resData));
-//                         var abc = localStorage.getString('token');
-//                         userId = body['data']['id'];
-//                         Navigator.push(
-//                             context,
-//                             MaterialPageRoute(
-//                               builder: (context) => OTP(
-//                                 userIdOfOtp: userId,
-//                               ),
-//                             ));
-//                       },
-//                       child: Text('OK'),
-//                     )
-//                   ],
-//                 ),
-//                 context: context,
-//               );
-//             }
-//           } else {
-//             print(body['message']);
-//             showDialog(
-//               builder: (context) => AlertDialog(
-//                 title: Text('Canvas Error'),
-//                 content: Text(body['message'].toString()),
-//                 actions: <Widget>[
-//                   FlatButton(
-//                     onPressed: () {
-// //                Navigator.popAndPushNamed(context, Canvas.route);
-//                       Navigator.pop(context);
-//                     },
-//                     child: Text('Try Again'),
-//                   )
-//                 ],
-//               ),
-//               context: context,
-//             );
-//           }
-//         } catch (e) {
-//           showDialog(
-//             builder: (context) => AlertDialog(
-//               title: Text('Canvas Error'),
-//               content: Text(e.toString()),
-//               actions: <Widget>[
-//                 FlatButton(
-//                   onPressed: () {
-//                     Navigator.pop(context);
-//                   },
-//                   child: Text('Try Again'),
-//                 )
-//               ],
-//             ),
-//             context: context,
-//           );
-//         }
-//         setState(() {
-//           showSnipper = false;
-//         });
-//       } else {
-//         showDialog(
-//           builder: (context) => AlertDialog(
-//             title: Text('Internet connection'),
-//             content: Text('Check your internet connection'),
-//             actions: <Widget>[
-//               FlatButton(
-//                 onPressed: () async {
-//                   Navigator.pop(context);
-//                   Navigator.pushReplacement(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => Canvas(),
-//                       ));
-//                 },
-//                 child: Text('OK'),
-//               )
-//             ],
-//           ),
-//           context: context,
-//         );
-//       }
-//     });
-    // Navigator.pop(context);
-
-    Navigator.pushReplacementNamed(context, HomePage.routeName);
+    return true;
   }
+
 
   @override
   Widget build(BuildContext context) {
+    check();
+
     List<Map<String, double>> _settings = [
       {
         "headHeight": 3,

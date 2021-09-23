@@ -11,17 +11,22 @@ class User {
     this.lastname,
     this.contact,
     this.email,
+    this.password,
     this.token,
     this.hash,
+    this.otp,
   });
 
   final String? id;
   final String? firstname;
   final String? lastname;
-  final DateTime? contact;
-  final DateTime? email;
-  final int? token;
-  final String? hash;
+  final String? email;
+  String? contact;
+  String? password;
+  String? token;
+  String? hash;
+  String? otp;
+
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["_id"],
@@ -29,8 +34,10 @@ class User {
     lastname: json["lastname"],
     contact: json["contact"],
     email: json["email"],
+    password: json["password"],
     token: json["token"],
     hash: json["hash"],
+    otp: json["otp"],
   );
 
 
@@ -40,7 +47,9 @@ class User {
     "lastname": lastname,
     "contact":contact,
     "email": email,
+    "password": password,
     "token": token,
     "hash": hash,
+    "otp": otp,
   };
 }

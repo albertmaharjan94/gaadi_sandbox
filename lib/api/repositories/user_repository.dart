@@ -1,19 +1,58 @@
 
+import 'dart:convert';
+
 import 'package:gaadi/api/api.dart';
 import 'package:gaadi/api/models/user.dart';
+import 'package:gaadi/api/responses/auth_response.dart';
+import 'package:gaadi/api/responses/user_response.dart';
 
 class UserRepository {
   API api = API();
-  Future<User> sendOTP(data) async{
+  Future<AuthResponse> sendOTP(data) async{
+    print("User Repo " + data);
     dynamic response = await api
-        .postData("/sendOTP", data);
-    final res = response['hash'];
-    final user = User(email: res["user"]["email"], hash: res["hash"]);
-    return user;
+        .postData( data, "/sendOTP");
+
+    print(response.toString());
+    AuthResponse res = AuthResponse.fromJson(response);
+    return res;
   }
 
-  // WIP
-  // Future<User> verifyOTP(data) async{
-  //   // http://127.0.0.1:3000/api/verifyOTP
-  // }
+  Future<AuthResponse> verifyOTP(data) async{
+    print("User Repo " + data);
+
+    dynamic response = await api
+        .postData( data, "/verifyOTP");
+
+    print(response.toString());
+    AuthResponse res = AuthResponse.fromJson(response);
+    print("Verify OTP "+res.toString());
+    return res;
+  }
+
+
+  Future<AuthResponse> login(data) async{
+    print("User Repo " + data);
+
+    dynamic response = await api
+        .postData( data, "/login");
+
+    print("Login res "+response.toString());
+    AuthResponse res = AuthResponse.fromJson(response);
+    print("Login OTP "+res.toString());
+    return res;
+  }
+
+  Future<AuthResponse> loginFast(data) async{
+    print("User Repo " + data);
+
+    dynamic response = await api
+        .postDataFast( data, "/login");
+
+    print("Login res "+response.toString());
+    AuthResponse res = AuthResponse.fromJson(response);
+    print("Login OTP "+res.toString());
+    return res;
+  }
+
 }

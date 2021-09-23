@@ -42,8 +42,35 @@ class API {
 
   Future postData(data, apiUrl) async {
     dynamic responseJson;
+    print("API Data "+ data);
+    print("API Url "+ domain + apiUrl);
     try {
-      final response = await http.post(domain + apiUrl, body: data);
+      final response = await http.post(domain + apiUrl, body: data, headers: _setHeader()).timeout(
+        Duration(seconds: 30),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          throw FetchDataException('No Internet Connection');
+        },
+      );
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  Future postDataFast(data, apiUrl) async {
+    dynamic responseJson;
+    print("API Data "+ data);
+    print("API Url "+ domain + apiUrl);
+    try {
+      final response = await http.post(domain + apiUrl, body: data, headers: _setHeader()).timeout(
+        Duration(seconds: 5),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          throw FetchDataException('No Internet Connection');
+        },
+      );
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

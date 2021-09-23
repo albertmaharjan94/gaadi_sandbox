@@ -1,9 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-
-import 'TestWi.dart';
-import 'dashboard/dashboard.dart';
+import 'dashboard/home.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,9 +24,7 @@ class _HomePageState extends State<HomePage> {
 
     _selectedPageIndex = 0;
     _pages = [
-      Dashboard(),
-      Dashboard(),
-      Dashboard(),
+      Home(),
     ];
 
     _pageController = PageController(initialPage: _selectedPageIndex);

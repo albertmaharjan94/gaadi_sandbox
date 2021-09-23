@@ -1,17 +1,26 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:gaadi/carousel/slide_item.dart';
+import 'package:gaadi/api/models/user.dart';
+import 'package:gaadi/api/repositories/user_repository.dart';
+import 'package:gaadi/api/responses/auth_response.dart';
+import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/auth/register.dart';
 import 'package:gaadi/screens/home/homepage.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login.dart';
 
 class OTP extends StatefulWidget {
   final Function changeIndex;
+  final Function changeSpinner;
+
   static int routeIndex = 2;
-  const OTP({Key? key, required this.changeIndex}) : super(key: key);
+
+  const OTP({Key? key, required this.changeIndex, required this.changeSpinner}) : super(key: key);
+
   @override
   _OTPState createState() => _OTPState();
 }
@@ -22,6 +31,7 @@ class _OTPState extends State<OTP> {
   var _check = '';
   late int userId;
   late int userOtp;
+  User? _pendingUser;
 
   @override
   void initState() {
@@ -51,14 +61,14 @@ class _OTPState extends State<OTP> {
 
   @override
   Widget build(BuildContext context) {
+    checkUser();
     return WillPopScope(
       onWillPop: () {
         widget.changeIndex(Login.routeIndex);
         return Future.value(false);
       },
-
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Column(
             children: [
@@ -89,21 +99,26 @@ class _OTPState extends State<OTP> {
               Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: PinCodeTextField(
-                    maxLength: 4,
+                    errorBorderColor: Colors.red,
+                    pinBoxWidth: 42,
+                    pinTextStyle: TextStyle(
+                      fontSize: 24,
+                    ),
+                    pinBoxHeight: 42,
+                    maxLength: 6,
                     controller: _otp,
                     keyboardType: TextInputType.number,
                     highlight: true,
                     highlightAnimation: true,
                     pinBoxRadius: 10.0,
                     onDone: (text) {
-                      userOtp = int.parse(_otp.text);
-                      final body = {
-                        "user_id": userId.toString(),
-                        // "user_id": json.encode(194),
-                        "otp": userOtp.toString(),
-                        // "otp": json.encode(2222),
-                      };
-                      _otpCheck(body);
+                      try {
+                        userOtp = int.parse(_otp.text);
+                        _sendOTP(userOtp.toString());
+                      } catch (e) {
+                        final snackBar = SnackBar(content: Text('OTP is required.'), backgroundColor: darkBlue);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                   )
 
@@ -117,23 +132,34 @@ class _OTPState extends State<OTP> {
                   ),
               Container(
                 height: 35,
-                width: 80,
-                child: IconButton(
-                  icon: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Text(
-                      'Resend?',
-                      style: TextStyle(
-                        color: Color(0xFF004695),
-                        fontSize: 16,
-                        fontFamily: 'FivoSansMedium',
-                      ),
-                    ),
-                  ),
+                width: 150,
+                child: FlatButton(
                   onPressed: () {
                     widget.changeIndex(Login.routeIndex);
                   },
+                  child: Text(
+                    'Back to Login',
+                    style: TextStyle(
+                      color: extraDarkBlue,
+                      fontFamily: 'FivoSansRegular',
+                      fontSize: 15,
+                    ),
+                  ),
                 ),
+                // child: IconButton(
+                //   icon: FittedBox(
+                //     fit: BoxFit.contain,
+                //     child: Text(
+                //       'Go back to login',
+                //       style: TextStyle(
+                //         color: Color(0xFF004695),
+                //         fontSize: 16,
+                //         fontFamily: 'FivoSansMedium',
+                //       ),
+                //     ),
+                //   ),
+                //
+                // ),
               ),
             ],
           ),
@@ -146,14 +172,18 @@ class _OTPState extends State<OTP> {
             ),
             child: RaisedButton(
               onPressed: () {
-                userOtp = int.parse(_otp.text);
-                final body = {
-                  "user_id": userId.toString(),
-                  // "user_id": json.encode(194),
-                  "otp": userOtp.toString(),
-                  // "otp": json.encode(2222),
-                };
-                _otpCheck(body);
+                try {
+                  if(_otp.text.length <6){
+                    final snackBar = SnackBar(content: Text('Please insert a valid pin.'), backgroundColor: darkBlue);
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  userOtp = int.parse(_otp.text);
+
+                  _sendOTP(userOtp.toString());
+                } catch (e) {
+                  final snackBar = SnackBar(content: Text('OTP is required.'), backgroundColor: darkBlue);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
               },
               elevation: 2.0,
               shape: RoundedRectangleBorder(
@@ -175,6 +205,19 @@ class _OTPState extends State<OTP> {
         ],
       ),
     );
+  }
+
+  Future<bool> checkUser() async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    try {
+      Map<String, dynamic> userMap =
+          jsonDecode(sharedPref.getString('PendingUser'));
+      _pendingUser = User.fromJson(userMap);
+      print("Pending User " + _pendingUser!.toJson().toString());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   void _otpCheck(data) async {
@@ -263,5 +306,144 @@ class _OTPState extends State<OTP> {
     //   );
     // }
     showSnipper = false;
+  }
+
+  void _sendOTP(String otpCode) async {
+    widget.changeSpinner(true);
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    String pendingUser = sharedPref.getString('PendingUser');
+    if(pendingUser == null){
+      widget.changeSpinner(false);
+      Alert(
+        context: context,
+        style: authAlertStyle,
+        type: AlertType.info,
+        title: "Invalid OTP",
+        desc: "Please register your email inorder to get OTP.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Register",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              widget.changeIndex(Register.routeIndex);
+              Navigator.pop(context);
+            },
+            color: Colors.greenAccent.shade700,
+            radius: BorderRadius.circular(10.0),
+          ),
+          DialogButton(
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            color: Color.fromRGBO(91, 55, 185, 1.0),
+            radius: BorderRadius.circular(10.0),
+          ),
+        ],
+      ).show();
+    }else{
+      try{
+
+        UserRepository repo =  UserRepository();
+
+        Map<String, dynamic> _user = jsonDecode(pendingUser);
+        _pendingUser!.otp = otpCode;
+
+        AuthResponse otp = await repo.verifyOTP(jsonEncode(_pendingUser));
+
+        if(otp.success == true){
+          sharedPref.remove("Register");
+          // sharedPref.remove("PendingUser");
+          sharedPref.setString("token", otp.authToken);
+          _pendingUser!.token = otp.authToken;
+          print(_pendingUser.toString());
+          sharedPref.setString("LoggedInUser", jsonEncode(_pendingUser));
+          widget.changeSpinner(false);
+          Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+        }else{
+          widget.changeSpinner(false);
+          Alert(
+            context: context,
+            style: authAlertStyle,
+            type: AlertType.error,
+            title: "OTP Error",
+            desc: otp.message,
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "Close",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                color: Colors.greenAccent.shade700,
+                radius: BorderRadius.circular(10.0),
+              )
+            ],
+          ).show();
+        }
+
+      }catch(e){
+        print(e);
+        widget.changeSpinner(false);
+        Alert(
+          context: context,
+          style: authAlertStyle,
+          type: AlertType.error,
+          title: "Server Error",
+          desc: "Please try again.",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Close",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              color: Colors.greenAccent.shade700,
+              radius: BorderRadius.circular(10.0),
+            )
+          ],
+        ).show();
+      }
+      widget.changeSpinner(false);
+      // Alert(
+      //   context: context,
+      //   style: authAlertStyle,
+      //   type: AlertType.info,
+      //   title: "Invalid OTP",
+      //   desc: "Please register your email inorder to get OTP.",
+      //   buttons: [
+      //     DialogButton(
+      //       child: Text(
+      //         "Register",
+      //         style: TextStyle(color: Colors.white, fontSize: 20),
+      //       ),
+      //       onPressed: (){
+      //         widget.changeIndex(Register.routeIndex);
+      //         Navigator.pop(context);
+      //       },
+      //       color: Colors.greenAccent.shade700,
+      //       radius: BorderRadius.circular(10.0),
+      //     ),
+      //     DialogButton(
+      //       child: Text(
+      //         "Cancel",
+      //         style: TextStyle(color: Colors.white, fontSize: 20),
+      //       ),
+      //       onPressed: () => Navigator.pop(context),
+      //       color: Color.fromRGBO(91, 55, 185, 1.0),
+      //       radius: BorderRadius.circular(10.0),
+      //     ),
+      //   ],
+      // ).show();
+    }
+
+
   }
 }

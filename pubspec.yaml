@@ -44,6 +44,8 @@ dependencies:
   fluttertoast: ^7.1.1
   form_field_validator: ^1.0.1
   connectivity: ^2.0.2
+  provider: ^5.0.0
+  rflutter_alert: ^2.0.4
 
 dev_dependencies:
   flutter_test:
