@@ -9,6 +9,7 @@ import 'package:gaadi/api/responses/auth_response.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/screens/auth/login.dart';
 import 'package:gaadi/screens/auth/otp.dart';
+import 'package:gaadi/size_config.dart';
 import 'package:gaadi/view_models/user_view_model.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
@@ -28,10 +29,14 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
+  FocusNode firstname = FocusNode();
+  FocusNode lastname = FocusNode();
   FocusNode email = FocusNode();
   FocusNode phone = FocusNode();
   FocusNode password = FocusNode();
@@ -85,10 +90,124 @@ class _RegisterState extends State<Register> {
                           )),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        height: MediaQuery.of(context).size.height / 2.2,
+                        height: getProportionateScreenHeight(500),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            Container(
+                              child: TextFormField(
+                                controller: _firstNameController,
+                                focusNode: firstname,
+                                onFieldSubmitted: (a) {
+                                  firstname.unfocus();
+                                  FocusScope.of(context).requestFocus(lastname);
+                                },
+                                onChanged: (value) {},
+                                validator: (value) {
+                                  // Null check
+                                  if (value == "") {
+                                    return 'Please enter your first name';
+                                  }
+                                  // success condition
+                                  return null;
+                                },
+                                enableSuggestions: false,
+                                keyboardType: TextInputType.name,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.supervised_user_circle_outlined,
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 10),
+                                  labelText: "First name",
+                                  hintText: "Enter first name",
+                                  fillColor: Colors.white,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                    borderSide: BorderSide(
+                                      color: extraDarkBlue,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                    borderSide: BorderSide(
+                                      color: darkBlue,
+                                    ),
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: darkBlue,
+                                  fontSize: 16,
+                                  fontFamily: 'FivoSansMedium',
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: TextFormField(
+                                controller: _lastNameController,
+                                focusNode: lastname,
+                                onFieldSubmitted: (a) {
+                                  lastname.unfocus();
+                                  FocusScope.of(context).requestFocus(phone);
+                                },
+                                onChanged: (value) {},
+                                validator: (value) {
+                                  // Null check
+                                  if (value == "") {
+                                    return 'Please enter your last name';
+                                  }
+                                  // success condition
+                                  return null;
+                                },
+                                enableSuggestions: false,
+                                keyboardType: TextInputType.name,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.supervised_user_circle_sharp,
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 10),
+                                  labelText: "Last name",
+                                  hintText: "Enter last name",
+                                  fillColor: Colors.white,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                    borderSide: BorderSide(
+                                      color: extraDarkBlue,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                    borderSide: BorderSide(
+                                      color: darkBlue,
+                                    ),
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: darkBlue,
+                                  fontSize: 16,
+                                  fontFamily: 'FivoSansMedium',
+                                ),
+                              ),
+                            ),
                             Container(
                               child: TextFormField(
                                 controller: _phoneController,
@@ -522,6 +641,26 @@ class _RegisterState extends State<Register> {
       }
     }catch(e){
       print(e.toString());
+      Alert(
+        context: context,
+        style: authAlertStyle,
+        type: AlertType.error,
+        title: "Cannot connect to the server",
+        desc: "Please try again.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Okay",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            color: Colors.orangeAccent.shade700,
+            radius: BorderRadius.circular(10.0),
+          ),
+        ],
+      ).show();
       widget.changeSpinner(false);
     }
 

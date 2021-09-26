@@ -173,11 +173,11 @@ class _OTPState extends State<OTP> {
             child: RaisedButton(
               onPressed: () {
                 try {
+                  userOtp = int.parse(_otp.text);
                   if(_otp.text.length <6){
                     final snackBar = SnackBar(content: Text('Please insert a valid pin.'), backgroundColor: darkBlue);
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  userOtp = int.parse(_otp.text);
 
                   _sendOTP(userOtp.toString());
                 } catch (e) {

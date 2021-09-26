@@ -46,6 +46,7 @@ dependencies:
   connectivity: ^2.0.2
   provider: ^5.0.0
   rflutter_alert: ^2.0.4
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,8 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/icons/
+    - assets/demo/
+    - assets/demo/cars/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

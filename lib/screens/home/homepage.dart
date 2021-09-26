@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/home/account/account.dart';
 import 'dashboard/home.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,8 +15,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _selectedPageIndex;
-  List<Widget>? _pages;
-  PageController? _pageController;
+  late List<Widget> _pages;
+  late PageController _pageController;
 
   ListQueue<int> _navigationQueue = ListQueue();
 
@@ -25,6 +27,8 @@ class _HomePageState extends State<HomePage> {
     _selectedPageIndex = 0;
     _pages = [
       Home(),
+      Account(),
+      Account(),
     ];
 
     _pageController = PageController(initialPage: _selectedPageIndex);
@@ -32,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    _pageController?.dispose();
+    _pageController.dispose();
 
     super.dispose();
   }
@@ -51,21 +55,26 @@ class _HomePageState extends State<HomePage> {
           return true;
         setState(() {
           _selectedPageIndex = 0;
+          _pageController.jumpToPage(_selectedPageIndex);
         });
         return false;
       },
       child: Scaffold(
-          body: PageView(
+          body:
+          PageView(
             controller: _pageController,
-            children: _pages!,
+            children: _pages,
           ),
+          // _pages![_selectedPageIndex],
           bottomNavigationBar: BottomNavigationBar(
+            elevation: 10,
+            selectedItemColor: kPrimaryColor,
             currentIndex: _selectedPageIndex,
             onTap: (value) {
               _navigationQueue.addLast(_selectedPageIndex);
               setState(() => _selectedPageIndex = value);
-              print(_pages.toString());
-              print(_pageController!.page.toString());
+              _pageController.jumpToPage(_selectedPageIndex);
+              print(_pageController.page.toString());
             },
             // onTap: (selectedPageIndex) {
             //

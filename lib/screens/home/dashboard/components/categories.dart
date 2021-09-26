@@ -10,25 +10,27 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
       {"icon": "assets/icons/settings.svg", "text": "Parts"},
-      {"icon": "assets/icons/sports-car", "text": "Buy"},
+      {"icon": "assets/icons/sports_car.svg", "text": "Buy"},
       {"icon": "assets/icons/car.svg", "text": "Decorate"},
       {"icon": "assets/icons/tools.svg", "text": "Workshop"},
-      {"icon": "assets/icons/settings.svg", "text": "Parts"},
-      {"icon": "assets/icons/sports_car", "text": "Buy"},
-      {"icon": "assets/icons/car.svg", "text": "Decorate"},
-      {"icon": "assets/icons/tools.svg", "text": "Workshop"},
+      {"icon": "assets/icons/siren.svg", "text": "Emergency"},
+      {"icon": "assets/icons/ticket.svg", "text": "Ticket"},
+      {"icon": "assets/icons/event.svg", "text": "Event"},
+      {"icon": "assets/icons/education.svg", "text": "Training"},
+      {"icon": "assets/icons/suitcase.svg", "text": "Job"},
+      {"icon": "assets/icons/boxes.svg", "text": "Logistic"},
     ];
     return Padding(
       padding: EdgeInsets.all(0),
       child: GridView.builder(
         shrinkWrap: true,
         itemCount: categories.length,
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 0.7,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 0,
+          childAspectRatio: 0.9,
         ),
         itemBuilder: (context, index) {
           return CategoryCard(
@@ -55,27 +57,25 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: SizedBox(
+    return
+       SizedBox(
         width: getProportionateScreenWidth(50),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(40)),
+              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
               height: getProportionateScreenWidth(50),
               width: getProportionateScreenWidth(50),
               decoration: BoxDecoration(
                 color: kPrimaryColor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SvgPicture.asset(icon!),
+              child: SvgPicture.asset(icon!, color: Colors.black54,),
             ),
             SizedBox(height: 5),
-            Text(text!, textAlign: TextAlign.center)
+            Text(text!, textAlign: TextAlign.center, style: TextStyle(fontSize: 10),)
           ],
         ),
-      ),
-    );
+      );
   }
 }

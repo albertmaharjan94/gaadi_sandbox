@@ -8,6 +8,7 @@ import 'package:gaadi/routes.dart';
 import 'package:gaadi/screens/auth/login.dart';
 import 'package:gaadi/screens/auth/register.dart';
 import 'package:gaadi/screens/home/homepage.dart';
+import 'package:gaadi/size_config.dart';
 import 'package:gaadi/widgets/roundedInput.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,14 +81,14 @@ class _CanvasState extends State<Canvas> {
     List<Map<String, double>> _settings = [
       {
         "headHeight": 3,
-        "containerHeight": 1.8,
+        "containerHeight": getProportionateScreenHeight(450),
       },
       {
-        "containerHeight": 1.3,
+        "containerHeight": getProportionateScreenHeight(650),
       },
       {
         "headHeight": 2.0,
-        "containerHeight": 1.8,
+        "containerHeight": getProportionateScreenHeight(450),
       },
     ];
 
@@ -128,8 +129,7 @@ class _CanvasState extends State<Canvas> {
                                 )),
                           ],
                           Container(
-                              height: MediaQuery.of(context).size.height /
-                                  _settings[currentIndex]["containerHeight"]!,
+                              height: _settings[currentIndex]["containerHeight"]!,
                               width: MediaQuery.of(context).size.width / 1.1,
                               decoration: BoxDecoration(
                                 borderRadius:

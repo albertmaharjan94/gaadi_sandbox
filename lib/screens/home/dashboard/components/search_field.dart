@@ -17,15 +17,17 @@ class SearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
+        textAlignVertical: TextAlignVertical.center,
         onChanged: (value) => print(value),
         decoration: InputDecoration(
+          alignLabelWithHint: true,
             contentPadding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20),
                 vertical: getProportionateScreenWidth(9)),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
-            hintText: "Search product",
+            hintText: "Search product...",
             prefixIcon: Icon(Icons.search)),
       ),
     );
