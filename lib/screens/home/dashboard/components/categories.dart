@@ -24,6 +24,8 @@ class Categories extends StatelessWidget {
       padding: EdgeInsets.all(0),
       child: GridView.builder(
         shrinkWrap: true,
+        physics: new NeverScrollableScrollPhysics(),
+        primary: true,
         itemCount: categories.length,
         padding: EdgeInsets.symmetric(horizontal: 10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

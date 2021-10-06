@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
-import 'package:gaadi/screens/home/account/account.dart';
-import 'dashboard/home.dart';
+import 'package:gaadi/screens/home/account/dashboard.dart';
+import 'package:gaadi/screens/home/dashboard/dashboard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
     _selectedPageIndex = 0;
     _pages = [
-      Home(),
+      Dashboard(),
       Account(),
       Account(),
     ];
