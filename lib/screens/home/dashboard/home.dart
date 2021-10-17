@@ -4,13 +4,20 @@ import 'package:gaadi/screens/home/dashboard/components/banner.dart';
 import 'package:gaadi/screens/home/dashboard/components/categories.dart';
 import 'package:gaadi/screens/home/dashboard/components/popular_component.dart';
 import 'package:gaadi/screens/home/dashboard/components/popular_part.dart';
+import 'package:gaadi/screens/home/dashboard/components/recent_product.dart';
 import 'package:gaadi/screens/home/dashboard/components/search_field.dart';
+import 'package:gaadi/screens/home/dashboard/components/section_title.dart';
 import 'package:gaadi/size_config.dart';
 
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   Widget build(BuildContext context) {
     var itemList = [
@@ -40,7 +47,16 @@ class Home extends StatelessWidget {
       SizedBox(height: getProportionateScreenWidth(20)),
       PopularPart(),
       SizedBox(height: getProportionateScreenWidth(20)),
+      Padding(
+        padding:
+        EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+        child: SectionTitle(title: "Recent Product", press: () {}),
+      ),
+      SizedBox(height: getProportionateScreenWidth(20)),
+      // RecentProduct(),
+      // SizedBox(height: getProportionateScreenWidth(20)),
     ];
+
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxScrolled) {
           return <Widget>[SliverBanner(), SliverBody()];
@@ -82,4 +98,8 @@ class Home extends StatelessWidget {
         ),
         title: SearchField());
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }

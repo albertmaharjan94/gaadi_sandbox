@@ -10,7 +10,8 @@ import 'api_exception.dart';
 class API {
 
   // final String domain = "http://10.0.2.2:3000/api";
-  final String domain = "http://192.168.43.219:3000/api";
+  // final String domain = "http://192.168.0.181:3000/api";
+  final String domain = "http://172.25.0.54:3000/api";
 
   Future getData(String apiUrl) async {
     dynamic responseJson;

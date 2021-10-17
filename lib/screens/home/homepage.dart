@@ -2,8 +2,9 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
-import 'package:gaadi/screens/home/account/dashboard.dart';
+import 'package:gaadi/screens/home/dashboard/components/recent_product.dart';
 import 'package:gaadi/screens/home/dashboard/dashboard.dart';
+import 'package:gaadi/screens/home/maps/map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,8 +28,8 @@ class _HomePageState extends State<HomePage> {
     _selectedPageIndex = 0;
     _pages = [
       Dashboard(),
-      Account(),
-      Account(),
+      RecentProduct(title: "title"),
+      MapRender()
     ];
 
     _pageController = PageController(initialPage: _selectedPageIndex);
@@ -51,8 +52,7 @@ class _HomePageState extends State<HomePage> {
 
     */
 
-        if(_selectedPageIndex == 0)
-          return true;
+        if (_selectedPageIndex == 0) return true;
         setState(() {
           _selectedPageIndex = 0;
           _pageController.jumpToPage(_selectedPageIndex);
@@ -60,10 +60,14 @@ class _HomePageState extends State<HomePage> {
         return false;
       },
       child: Scaffold(
-          body:
-          PageView(
+          body: PageView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: _pages,
+            onPageChanged: (value) {
+              setState(() => _selectedPageIndex = value);
+              _pageController.jumpToPage(_selectedPageIndex);
+            },
           ),
           // _pages![_selectedPageIndex],
           bottomNavigationBar: BottomNavigationBar(
@@ -89,12 +93,12 @@ class _HomePageState extends State<HomePage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.business),
+                icon: Icon(Icons.ac_unit),
                 label: 'Business',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.school),
-                label: 'School',
+                icon: Icon(Icons.map),
+                label: 'Map',
               ),
             ],
           )),
