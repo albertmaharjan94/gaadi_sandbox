@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gaadi/Transitions/RouteSlide.dart';
 import 'package:gaadi/carousel/slide_item.dart';
 import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/car/car.dart';
 import 'package:gaadi/size_config.dart';
 
 
@@ -9,16 +11,16 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
-      {"icon": "assets/icons/settings.svg", "text": "Parts"},
-      {"icon": "assets/icons/sports_car.svg", "text": "Buy"},
-      {"icon": "assets/icons/car.svg", "text": "Decorate"},
-      {"icon": "assets/icons/tools.svg", "text": "Workshop"},
-      {"icon": "assets/icons/siren.svg", "text": "Emergency"},
-      {"icon": "assets/icons/ticket.svg", "text": "Ticket"},
-      {"icon": "assets/icons/event.svg", "text": "Event"},
-      {"icon": "assets/icons/education.svg", "text": "Training"},
-      {"icon": "assets/icons/suitcase.svg", "text": "Job"},
-      {"icon": "assets/icons/boxes.svg", "text": "Logistic"},
+      {"icon": "assets/icons/settings.svg", "text": "Parts", "link": Car()},
+      {"icon": "assets/icons/sports_car.svg", "text": "Buy", "link": Car()},
+      {"icon": "assets/icons/car.svg", "text": "Decorate", "link": Car()},
+      {"icon": "assets/icons/tools.svg", "text": "Workshop", "link": Car()},
+      {"icon": "assets/icons/siren.svg", "text": "Emergency", "link": Car()},
+      {"icon": "assets/icons/ticket.svg", "text": "Ticket","link": Car()},
+      {"icon": "assets/icons/event.svg", "text": "Event", "link": Car()},
+      {"icon": "assets/icons/education.svg", "text": "Training","link": Car()},
+      {"icon": "assets/icons/suitcase.svg", "text": "Job", "link": Car()},
+      {"icon": "assets/icons/boxes.svg", "text": "Logistic", "link": Car()},
     ];
     return Padding(
       padding: EdgeInsets.all(0),
@@ -38,7 +40,10 @@ class Categories extends StatelessWidget {
           return CategoryCard(
             icon: categories[index]["icon"],
             text: categories[index]["text"],
-            press: () {},
+            press: () {
+              print(index);
+              Navigator.push(context, SlideLeftRoute(page: categories[index]["link"]));
+            },
           );
         },
       ),
@@ -60,24 +65,27 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-       SizedBox(
-        width: getProportionateScreenWidth(50),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-              height: getProportionateScreenWidth(50),
-              width: getProportionateScreenWidth(50),
-              decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10),
+       InkWell(
+         onTap: this.press,
+         child: SizedBox(
+          width: getProportionateScreenWidth(50),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                height: getProportionateScreenWidth(50),
+                width: getProportionateScreenWidth(50),
+                decoration: BoxDecoration(
+                  color: kPrimaryColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SvgPicture.asset(icon!, color: Colors.black54,),
               ),
-              child: SvgPicture.asset(icon!, color: Colors.black54,),
-            ),
-            SizedBox(height: 5),
-            Text(text!, textAlign: TextAlign.center, style: TextStyle(fontSize: 10),)
-          ],
-        ),
-      );
+              SizedBox(height: 5),
+              Text(text!, textAlign: TextAlign.center, style: TextStyle(fontSize: 10),)
+            ],
+          ),
+      ),
+       );
   }
 }

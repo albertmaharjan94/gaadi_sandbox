@@ -5,8 +5,15 @@ import 'package:gaadi/screens/home/dashboard/components/section_title.dart';
 import 'package:gaadi/screens/single_product/single_product.dart';
 import 'package:gaadi/size_config.dart';
 
-class PopularComponent extends StatelessWidget {
-  List<Map<String, dynamic>> demoPopular = [
+class SimilarProduct extends StatefulWidget {
+  const SimilarProduct({Key? key}) : super(key: key);
+
+  @override
+  _SimilarProductState createState() => _SimilarProductState();
+}
+
+class _SimilarProductState extends State<SimilarProduct> {
+  List<Map<String, dynamic>> demoRecent = [
     {
       "id": 1,
       "title": "Chevrolet Malibu",
@@ -50,8 +57,8 @@ class PopularComponent extends StatelessWidget {
       children: [
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(title: "Popular Products", press: () {}),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: SectionTitle(title: "Similar Products", press: () {}),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
@@ -59,22 +66,20 @@ class PopularComponent extends StatelessWidget {
           child: Row(
             children: [
               ...List.generate(
-                demoPopular.length,
-                (index) {
+                demoRecent.length,
+                    (index) {
                   // if (demoProducts[index].isPopular)
                   return Container(
                       margin: EdgeInsets.only(
                           left: getProportionateScreenWidth(20)),
                       child: InkWell(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                        child: HomeCard(product: demoPopular[index]),
+                        child: HomeCard(product: demoRecent[index]),
                         onTap: () {
                           Navigator.push(context, SlideLeftRoute(page: SingleProduct()));
-                          // Navigator.pushNamed(context, );
                           print(index);
                         },
                       ));
-
                   // return SizedBox
                   //     .shrink(); // here by default width and height is 0
                 },

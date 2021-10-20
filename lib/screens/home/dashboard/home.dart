@@ -20,26 +20,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   Widget build(BuildContext context) {
-    var itemList = [
-      "ITEM 1",
-      "ITEM 2",
-      "ITEM 3",
-      "ITEM 4",
-      "ITEM 5",
-      "ITEM 6",
-      "ITEM 7",
-      "ITEM 8",
-      "ITEM 9",
-      "ITEM 1",
-      "ITEM 2",
-      "ITEM 3",
-      "ITEM 4",
-      "ITEM 5",
-      "ITEM 6",
-      "ITEM 7",
-      "ITEM 8",
-      "ITEM 9",
-    ];
 
     var _body = [
       SizedBox(height: getProportionateScreenWidth(20)),

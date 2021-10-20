@@ -4,7 +4,6 @@ import 'package:gaadi/constants.dart';
 import 'package:gaadi/size_config.dart';
 
 class HomeCard extends StatelessWidget {
-
   const HomeCard({
     Key? key,
     this.width = 140,
@@ -17,9 +16,7 @@ class HomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-      child: SizedBox(
+    return SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
           child: Column(
@@ -35,10 +32,12 @@ class HomeCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: product["id"].toString(),
-                    child:
-                    ClipRRect(
+                    child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(product["image"].toString(), fit: BoxFit.cover, )),
+                        child: Image.asset(
+                          product["image"].toString(),
+                          fit: BoxFit.cover,
+                        )),
                   ),
                 ),
               ),
@@ -84,8 +83,7 @@ class HomeCard extends StatelessWidget {
               )
             ],
           ),
-        ),
-      ),
+        )
     );
   }
 }
