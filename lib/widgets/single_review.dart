@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gaadi/Transitions/RouteSlide.dart';
 import 'package:gaadi/constants.dart';
-import 'package:gaadi/screens/single_product/components/review.dart';
-import 'package:gaadi/screens/single_product/review/write_review.dart';
+import 'package:gaadi/screens/single_car/review/write_review.dart';
+import 'package:gaadi/widgets/review.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class SingleReview extends StatefulWidget {
@@ -87,7 +87,7 @@ class _SingleReviewState extends State<SingleReview> {
           const Divider(
             color: Colors.black54,
             height: 10,
-            thickness: 2,
+            thickness: 1,
             indent: 0,
             endIndent: 0,
           ),
@@ -105,7 +105,6 @@ class _SingleReviewState extends State<SingleReview> {
               fontSize: 18
             ),),),
           )
-
         ],
       ),
     );

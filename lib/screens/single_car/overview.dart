@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gaadi/screens/single_product/components/similar_product.dart';
-import 'package:gaadi/screens/single_product/components/single_feature.dart';
-import 'package:gaadi/screens/single_product/components/single_header.dart';
-import 'package:gaadi/screens/single_product/components/single_header_contact.dart';
-import 'package:gaadi/screens/single_product/components/single_review.dart';
+import 'package:gaadi/screens/single_car/components/similar_product.dart';
+import 'package:gaadi/screens/single_car/components/single_feature.dart';
+import 'package:gaadi/screens/single_car/components/single_header.dart';
+import 'package:gaadi/screens/single_car/components/single_header_contact.dart';
+import 'package:gaadi/widgets/single_review.dart';
 import 'package:gaadi/size_config.dart';
 
 class Overview extends StatefulWidget {

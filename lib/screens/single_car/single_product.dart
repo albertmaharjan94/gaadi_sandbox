@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gaadi/screens/home/dashboard/components/categories.dart';
-import 'package:gaadi/screens/single_product/single_view_pager.dart';
+import 'package:gaadi/screens/single_car/single_view_pager.dart';
 import 'package:gaadi/size_config.dart';
 
 class SingleProduct extends StatefulWidget {

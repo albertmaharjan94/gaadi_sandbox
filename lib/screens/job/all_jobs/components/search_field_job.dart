@@ -4,8 +4,8 @@ import 'package:gaadi/screens/search/search.dart';
 import 'package:gaadi/size_config.dart';
 
 
-class SearchFieldCar extends StatelessWidget {
-  const SearchFieldCar({
+class SearchFieldJob extends StatelessWidget {
+  const SearchFieldJob({
     Key? key,
   }) : super(key: key);
 
@@ -38,7 +38,7 @@ class SearchFieldCar extends StatelessWidget {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
-                hintText: "Search car...",
+                hintText: "Search jobs...",
                 prefixIcon: Icon(Icons.search)),
           ),
         ),

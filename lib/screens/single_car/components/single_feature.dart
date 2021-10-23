@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gaadi/screens/single_product/components/feature.dart';
+import 'package:gaadi/screens/single_car/components/feature.dart';
 import 'package:gaadi/size_config.dart';
 
 class SingleFeature extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gaadi/Transitions/RouteSlide.dart';
 import 'package:gaadi/screens/home/dashboard/components/card.dart';
 import 'package:gaadi/screens/home/dashboard/components/section_title.dart';
-import 'package:gaadi/screens/single_product/single_product.dart';
+import 'package:gaadi/screens/single_car/single_product.dart';
 import 'package:gaadi/size_config.dart';
 
 class SimilarProduct extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gaadi/screens/car/components/search_field_car.dart';
 import 'package:gaadi/screens/car/components/single_car.dart';
-import 'package:gaadi/screens/single_product/single_product.dart';
+import 'package:gaadi/screens/single_car/single_product.dart';
 import 'package:gaadi/size_config.dart';
 
 class CarBody extends StatefulWidget {

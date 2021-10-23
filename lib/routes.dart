@@ -7,14 +7,12 @@ import 'package:gaadi/screens/auth/bak/register.dart';
 import 'package:gaadi/screens/home/dashboard/Child.dart';
 import 'package:gaadi/screens/home/homepage.dart';
 import 'package:gaadi/screens/auth/canvas.dart';
-import 'package:gaadi/screens/single_product/review/write_review.dart';
-import 'package:gaadi/screens/single_product/single_product.dart';
+import 'package:gaadi/screens/single_car/review/write_review.dart';
 
 // named routes
-
 final Map<String, WidgetBuilder> routes = {
   HomePage.routeName: (context) => HomePage(),
-  SingleProduct.routeName: (context) => SingleProduct(),
+  // SingleCar.routename: (context) => SingleCar(),
 
   // entrey screen / choose between login and register
   SplashScreen.routeName: (context) => SplashScreen(),

@@ -15,8 +15,6 @@ class SizeConfig {
   }
 }
 
-
-
 // Get the proportionate height as per screen size
 double getProportionateScreenHeight(double inputHeight) {
   double screenHeight = SizeConfig.screenHeight;

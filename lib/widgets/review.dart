@@ -47,7 +47,7 @@ class Review extends StatelessWidget {
             child: const Divider(
               color: Colors.black54,
               height: 2,
-              thickness: 2,
+              thickness: 1,
               indent: 0,
               endIndent: 0,
             ),

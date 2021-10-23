@@ -4,6 +4,9 @@ import 'package:gaadi/Transitions/RouteSlide.dart';
 import 'package:gaadi/carousel/slide_item.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/screens/car/car.dart';
+import 'package:gaadi/screens/event/all_event.dart';
+import 'package:gaadi/screens/event/components/all_calendar.dart';
+import 'package:gaadi/screens/job/all_jobs/job.dart';
 import 'package:gaadi/size_config.dart';
 
 
@@ -16,10 +19,10 @@ class Categories extends StatelessWidget {
       {"icon": "assets/icons/car.svg", "text": "Decorate", "link": Car()},
       {"icon": "assets/icons/tools.svg", "text": "Workshop", "link": Car()},
       {"icon": "assets/icons/siren.svg", "text": "Emergency", "link": Car()},
-      {"icon": "assets/icons/ticket.svg", "text": "Ticket","link": Car()},
-      {"icon": "assets/icons/event.svg", "text": "Event", "link": Car()},
+      {"icon": "assets/icons/ticket.svg", "text": "Ticket","link": AllEvent()},
+      {"icon": "assets/icons/event.svg", "text": "Event", "link": Calendar()},
       {"icon": "assets/icons/education.svg", "text": "Training","link": Car()},
-      {"icon": "assets/icons/suitcase.svg", "text": "Job", "link": Car()},
+      {"icon": "assets/icons/suitcase.svg", "text": "Job", "link": Job()},
       {"icon": "assets/icons/boxes.svg", "text": "Logistic", "link": Car()},
     ];
     return Padding(

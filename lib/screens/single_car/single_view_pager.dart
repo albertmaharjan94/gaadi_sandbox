@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
-import 'package:gaadi/screens/single_product/overview.dart';
+import 'package:gaadi/screens/single_car/overview.dart';
 import 'package:gaadi/size_config.dart';
 
 class SingleViewPager extends StatefulWidget {
