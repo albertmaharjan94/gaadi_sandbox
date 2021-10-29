@@ -1,16 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:gaadi/screens/single_car/overview.dart';
+import 'package:gaadi/screens/decoration/single_decoration/overview_decoration.dart';
+import 'package:gaadi/screens/workshop/single_workshop/overview_workshop.dart';
 import 'package:gaadi/widgets/bottom_contact_bar.dart';
 
-class SingleViewPager extends StatefulWidget {
-  SingleViewPager({Key? key, required this.title}) : super(key: key);
+class SingleWorkshopPage extends StatefulWidget {
+  SingleWorkshopPage({Key? key, required this.title}) : super(key: key);
   String? title;
   @override
-  _SingleViewPagerState createState() => _SingleViewPagerState();
+  _SingleWorkshopPageState createState() => _SingleWorkshopPageState();
 }
 
-class _SingleViewPagerState extends State<SingleViewPager>  with SingleTickerProviderStateMixin {
+class _SingleWorkshopPageState extends State<SingleWorkshopPage>  with SingleTickerProviderStateMixin {
   var _scrollController, _tabController;
 
   @override
@@ -34,9 +35,9 @@ class _SingleViewPagerState extends State<SingleViewPager>  with SingleTickerPro
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                actionsIconTheme: IconThemeData(color: Colors.redAccent.shade400),
+                actionsIconTheme: IconThemeData(color: Colors.black54),
                 actions: <Widget>[
-                  IconButton(icon: Icon(Icons.favorite), onPressed: () {})
+                  IconButton(icon: Icon(Icons.favorite_outline), onPressed: () {})
                 ],
                 iconTheme: IconThemeData(color: Colors.black),
                 backgroundColor: Colors.white,
@@ -45,27 +46,12 @@ class _SingleViewPagerState extends State<SingleViewPager>  with SingleTickerPro
                 floating: true,
                 snap: false,
                 forceElevated: innerBoxIsScrolled,
-
               ),
             ];
           },
-          body: Overview()
+          body: OverviewWorkshop()
         ),
       ),
-    );
-  }
-
-  _pageView() {
-    return ListView.builder(
-      itemCount: 20,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Text('List Item $index'),
-          ),
-        );
-      },
     );
   }
 }

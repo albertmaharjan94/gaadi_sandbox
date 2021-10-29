@@ -115,43 +115,8 @@ class _MapRenderState extends State<MapRender> {
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
                 print(markers.toString());
-                //
-                // MarkerId markerId1 = MarkerId("1");
-                // MarkerId markerId2 = MarkerId("2");
-                // MarkerId markerId3 = MarkerId("3");
-                controller.showMarkerInfoWindow(markers[0]!.markerId);
-                //
-                // listMarkerIds.add(markerId1);
-                // listMarkerIds.add(markerId2);
-                // listMarkerIds.add(markerId3);
-                //
-                // Marker marker1 = Marker(
-                //     markerId: markerId1,
-                //     position: LatLng(27.71854418056574, 85.3315035005705),
-                //     icon: BitmapDescriptor.defaultMarkerWithHue(
-                //         BitmapDescriptor.hueCyan),
-                //     infoWindow: InfoWindow(
-                //         title: "Hytech City",
-                //         onTap: () {},
-                //         snippet: "Snipet Hitech City"));
-                //
-                // Marker marker2 = Marker(
-                //   markerId: markerId2,
-                //   position: LatLng(17.4837, 78.3158),
-                //   icon: BitmapDescriptor.defaultMarkerWithHue(
-                //       BitmapDescriptor.hueGreen),
-                // );
-                // Marker marker3 = Marker(
-                //     markerId: markerId3,
-                //     position: LatLng(17.5169, 78.3428),
-                //     infoWindow: InfoWindow(
-                //         title: "Miyapur", onTap: () {}, snippet: "Miyapur"));
 
-                // setState(() {
-                //   markers[markerId1] = marker1;
-                //   markers[markerId2] = marker2;
-                //   markers[markerId3] = marker3;
-                // });
+                controller.showMarkerInfoWindow(markers[0]!.markerId);
               }),
         ),
       ],

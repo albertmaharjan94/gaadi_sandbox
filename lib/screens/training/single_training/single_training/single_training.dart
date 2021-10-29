@@ -1,32 +1,33 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
-import 'package:gaadi/screens/job/single_job/components/single_job_body.dart';
-import 'package:gaadi/screens/job/single_job/components/single_job_map.dart';
-import 'package:gaadi/screens/job/single_job/components/single_job_similar.dart';
-import 'package:gaadi/screens/job/single_job/components/single_job_title.dart';
+import 'package:gaadi/screens/training/single_training/single_training/components/single_training_body.dart';
+import 'package:gaadi/screens/training/single_training/single_training/components/single_training_map.dart';
+import 'package:gaadi/screens/training/single_training/single_training/components/single_training_similar.dart';
 import 'package:gaadi/size_config.dart';
 import 'package:gaadi/services/phone_call.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class SingleJob extends StatefulWidget {
-  SingleJob({Key? key, required this.title}) : super(key: key);
+import 'components/single_training_title.dart';
+
+class SingleTraining extends StatefulWidget {
+  SingleTraining({Key? key, required this.title}) : super(key: key);
   String? title;
 
   @override
-  _SingleJobState createState() => _SingleJobState();
+  _SingleTrainingState createState() => _SingleTrainingState();
 }
 
-class _SingleJobState extends State<SingleJob> {
+class _SingleTrainingState extends State<SingleTraining> {
   ScrollController _scrollController = new ScrollController();
   List<Widget> _body = [
-    SingleJobTitle(),
+    SingleTrainingTitle(),
     SizedBox(height: getProportionateScreenHeight(20),),
-    SingleJobBody(),
+    SingleTrainingBody(),
     SizedBox(height: getProportionateScreenHeight(20),),
-    SingleJobMap(),
+
+    SingleTrainingMap(),
     SizedBox(height: getProportionateScreenHeight(20),),
-    SingleJobSimilar(),
+    SingleTrainingSimilar(),
     SizedBox(height: getProportionateScreenHeight(20),),
   ];
 

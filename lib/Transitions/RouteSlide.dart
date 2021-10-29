@@ -27,8 +27,6 @@ class SlideRightRoute extends PageRouteBuilder {
   );
 }
 
-
-
 class SlideLeftRoute extends PageRouteBuilder {
   final Widget page;
   SlideLeftRoute({required this.page})

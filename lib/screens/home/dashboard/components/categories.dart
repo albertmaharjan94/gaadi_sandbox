@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gaadi/Transitions/RouteSlide.dart';
-import 'package:gaadi/carousel/slide_item.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/screens/car/car.dart';
+import 'package:gaadi/screens/decoration/all_decoration/decoration.dart';
+import 'package:gaadi/screens/emergency/emergency.dart';
 import 'package:gaadi/screens/event/all_event.dart';
 import 'package:gaadi/screens/event/components/all_calendar.dart';
 import 'package:gaadi/screens/job/all_jobs/job.dart';
+import 'package:gaadi/screens/part/all_part/part.dart';
+import 'package:gaadi/screens/training/all_training/training.dart';
+import 'package:gaadi/screens/workshop/all_workshop/workshop.dart';
 import 'package:gaadi/size_config.dart';
 
 
@@ -14,14 +18,14 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
-      {"icon": "assets/icons/settings.svg", "text": "Parts", "link": Car()},
+      {"icon": "assets/icons/settings.svg", "text": "Parts", "link": Part()},
       {"icon": "assets/icons/sports_car.svg", "text": "Buy", "link": Car()},
-      {"icon": "assets/icons/car.svg", "text": "Decorate", "link": Car()},
-      {"icon": "assets/icons/tools.svg", "text": "Workshop", "link": Car()},
-      {"icon": "assets/icons/siren.svg", "text": "Emergency", "link": Car()},
-      {"icon": "assets/icons/ticket.svg", "text": "Ticket","link": AllEvent()},
-      {"icon": "assets/icons/event.svg", "text": "Event", "link": Calendar()},
-      {"icon": "assets/icons/education.svg", "text": "Training","link": Car()},
+      {"icon": "assets/icons/car.svg", "text": "Decorate", "link": DecorationVehicle()},
+      {"icon": "assets/icons/tools.svg", "text": "Workshop", "link": Workshop()},
+      {"icon": "assets/icons/siren.svg", "text": "Emergency", "link": Emergency()},
+      {"icon": "assets/icons/training.svg", "text": "Ticket","link": AllEvent()},
+      {"icon": "assets/icons/event.svg", "text": "Event", "link": AllEvent()},
+      {"icon": "assets/icons/education.svg", "text": "Training","link": Training()},
       {"icon": "assets/icons/suitcase.svg", "text": "Job", "link": Job()},
       {"icon": "assets/icons/boxes.svg", "text": "Logistic", "link": Car()},
     ];

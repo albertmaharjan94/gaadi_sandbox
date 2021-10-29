@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:gaadi/screens/single_car/components/feature.dart';
 import 'package:gaadi/size_config.dart';
 
 class SingleFeature extends StatefulWidget {
-  const SingleFeature({Key? key}) : super(key: key);
-
+  SingleFeature({Key? key, required this.body, this.title}) : super(key: key);
+  List<Widget> body = [];
+  String? title;
   @override
   _SingleFeatureState createState() => _SingleFeatureState();
 }
 
 class _SingleFeatureState extends State<SingleFeature> {
-  List<Widget> body = [];
 
   @override
   void initState() {
     super.initState();
-    body = [
-      Feature(image: "assets/demo/cars/chevroletMalibu.jpg", text: "Nice Body"),
-      Feature(image: "assets/demo/cars/fordFocus.jpg", text: "Nice Windows"),
-      Feature(image: "assets/demo/cars/fordFocus.jpg", text: "360 View"),
-      Feature(image: "assets/demo/cars/fordFocus.jpg", text: "Camera"),
-    ];
   }
 
   @override
@@ -37,7 +30,7 @@ class _SingleFeatureState extends State<SingleFeature> {
             padding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20)),
             child: Text(
-              "Features",
+              widget.title != null ? widget.title.toString(): "Features" ,
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(18),
                 color: Colors.black,
@@ -49,7 +42,7 @@ class _SingleFeatureState extends State<SingleFeature> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
               height: getProportionateScreenHeight(240),
-              child: ListView(scrollDirection: Axis.horizontal, children: body),
+              child: ListView(scrollDirection: Axis.horizontal, children: widget.body),
             ),
           ),
         ],
