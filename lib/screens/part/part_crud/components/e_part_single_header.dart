@@ -1,38 +1,100 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:gaadi/size_config.dart';
+import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class EPartSingleHeader extends StatefulWidget {
-  List? carousel;
-  EPartSingleHeader({Key? key, required this.carousel}) : super(key: key);
 
+  EPartSingleHeader({Key? key, required this.setImageList}) : super(key: key);
+
+  Function? setImageList;
   @override
   _EPartSingleHeaderState createState() => _EPartSingleHeaderState();
 }
 
 class _EPartSingleHeaderState extends State<EPartSingleHeader> {
+  final ImagePicker _picker = ImagePicker();
+
+  List<PickedFile> _imageList = [];
+  static const int limit = 6;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-          child: CarouselSlider(
-            options: CarouselOptions(
-                aspectRatio: 2.0,
-                enlargeCenterPage: true,
-                height: getProportionateScreenHeight(200)),
-            items: widget.carousel!.map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(color: Colors.amber),
-                      child: Image.asset(i, fit: BoxFit.cover,)
-                  );
+    return Column(
+      children: [
+        OutlinedButton(
+          onPressed: () {
+            if (_imageList.length < limit) selectImage();
+          },
+          child: Text("Select Photo"),
+        ),
+        GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          // to disable GridView's scrolling
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3),
+          itemCount: limit,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              padding: EdgeInsets.all(5),
+              child: (index <= _imageList.length - 1)
+                  ? Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.file(
+                          File(_imageList[index].path),
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(255, 255, 254, 0.7)),
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _imageList.removeAt(index);
+                                      widget.setImageList!(
+                                          _imageList.map((e) => e.path).toList());
 
-                },
-              );
-            }).toList(),
-          ),
-        );
+                                    });
+
+                                  },
+                                  child: Icon(Icons.delete_outline,
+                                      color: Colors.red[600]))),
+                        )
+                      ],
+                    )
+                  : InkWell(
+                      onTap: () => selectImage(),
+                      child: Image.asset(
+                        "assets/images/default.jpg",
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  void selectImage() async {
+    final PickedFile selected =
+        await _picker.getImage(source: ImageSource.gallery);
+    if (selected.path.isNotEmpty) {
+      setState(() {
+        _imageList.add(selected);
+        widget.setImageList!(
+            _imageList.map((e) => e.path).toList());
+      });
+    }
   }
 }

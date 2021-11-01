@@ -10,6 +10,7 @@ class EPartSingleHeaderContact extends StatelessWidget {
       this.titleController,
       this.modelController,
       this.descriptionController,
+      this.priceController,
       required this.titleNode,
       required this.modelNode,
       required this.descriptionNode,
@@ -17,10 +18,12 @@ class EPartSingleHeaderContact extends StatelessWidget {
       : super(key: key);
   TextEditingController? titleController = new TextEditingController();
   TextEditingController? modelController = new TextEditingController();
+  TextEditingController? priceController = new TextEditingController();
   TextEditingController? descriptionController = new TextEditingController();
 
   FocusNode titleNode = FocusNode();
   FocusNode modelNode = FocusNode();
+  FocusNode priceNode = FocusNode();
   FocusNode nextNode = FocusNode();
   FocusNode descriptionNode = FocusNode();
 
@@ -69,7 +72,7 @@ class EPartSingleHeaderContact extends StatelessWidget {
                           onFieldSubmitted: (value) {
                             modelNode.unfocus();
                             FocusScope.of(context)
-                                .requestFocus(descriptionNode);
+                                .requestFocus(priceNode);
                           },
                           validator: (value) {
                             // Null check
@@ -84,6 +87,30 @@ class EPartSingleHeaderContact extends StatelessWidget {
                               alignLabelWithHint: true,
                               hintText: "Eg. 1234567890"),
                           controller: modelController,
+                        ),
+                      ),
+                      Container(
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          focusNode: priceNode,
+                          onFieldSubmitted: (value) {
+                            priceNode.unfocus();
+                            FocusScope.of(context)
+                                .requestFocus(descriptionNode);
+                          },
+                          validator: (value) {
+                            // Null check
+                            if (value == "") {
+                              return 'Please enter price';
+                            }
+                            // success condition
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Price",
+                              alignLabelWithHint: true,
+                              hintText: "Eg. 900"),
+                          controller: priceController,
                         ),
                       ),
                       Container(

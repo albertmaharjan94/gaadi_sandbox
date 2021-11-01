@@ -52,6 +52,7 @@ dependencies:
   syncfusion_flutter_calendar: ^19.3.46
   intl: ^0.17.0
   modal_bottom_sheet:
+  google_maps_place_picker: any
 
   google_maps_flutter: any
   geolocator: any

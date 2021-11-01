@@ -29,7 +29,7 @@ class _PartState extends State<Part> {
         onPressed: (){
           // Navigator.push(context, SlideLeftRoute(page: FullProfile()));
           // Navigator.push(context, SlideLeftRoute(page: SingleImageUpload()));
-          // Navigator.push(context, SlideLeftRoute(page: AddSpecification()));
+          Navigator.push(context, SlideLeftRoute(page: AddSpecification()));
           Navigator.push(context, SlideLeftRoute(page: PartCrud(title: 'Add',)));
           //task to execute when this button is pressed
         },
