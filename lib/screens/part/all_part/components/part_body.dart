@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gaadi/api/api.dart';
+import 'package:gaadi/api/api_response.dart';
 import 'package:gaadi/screens/part/all_part/components/single_part.dart';
 import 'package:gaadi/screens/part/single_part/single_part_page.dart';
+import 'package:provider/provider.dart';
+
+import '../../part_view_model.dart';
 
 class PartBody extends StatefulWidget {
   const PartBody({Key? key}) : super(key: key);
@@ -10,38 +15,60 @@ class PartBody extends StatefulWidget {
 }
 
 class _PartBodyState extends State<PartBody> {
-  List<Widget> parts=[
-    SinglePart(
-        images: ["assets/demo/cars/akdLight.jpg", "assets/demo/cars/bridgestone.jpg", "assets/demo/cars/akdLight.jpg"],
-        title: "Honda Accord", price: "1000000", rating: "3.5", review: "200", tap: SinglePartPage(title: 'AKD',)),
-    SinglePart(
-        images: ["assets/demo/cars/dunlop.jpg", "assets/demo/cars/dunlop.jpg", "assets/demo/cars/dunlop.jpg"],
-        title: "Ford Focus", price: "200000", rating: "4.5", review: "120", tap: SinglePartPage(title: 'AKD',)),
-    SinglePart(
-        images: ["assets/demo/cars/fagisLight.jpg", "assets/demo/cars/echoGuardAirFilter.jpg", "assets/demo/cars/dunlop.jpg"],
-        title: "Elantra", price: "1000000", rating: "2", review: "190", tap: SinglePartPage(title: 'AKD',)),
-    SinglePart(
-        images: ["assets/demo/cars/framAirFilter.jpg", "assets/demo/cars/framAirFilter.jpg", "assets/demo/cars/framAirFilter.jpg"],
-        title: "Honda Accird", price: "1000000", rating: "2", review: "120", tap: SinglePartPage(title: 'AKD',)),
-  ];
+  List<Widget> parts = [];
+  ApiResponse _apiResponse = ApiResponse.loading("Loading");
 
-
-  
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<PartViewModel>(context, listen: false).getParts();
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ListView(
-              children:parts
-            ),
+    setState(() {
+      parts = Provider.of<PartViewModel>(context, listen: true)
+          .parts
+          .map(
+            (e) => SinglePart(
+                images: e.image == null
+                    ? []
+                    : e.image!.map((e) => imageDomain + "/" + e).toList(),
+                title: e.title,
+                price: e.price.toString(),
+                user: e.user!.firstname,
+                rating: "4.5",
+                review: "120",
+                tap: SinglePartPage(
+                  title: e.title,
+                  id: e.id.toString(),
+                )),
           )
-        ]
-      ),
+          .toList();
+      _apiResponse=Provider.of<PartViewModel>(context, listen: true).apiResponse;
+
+    });
+
+    print(parts.toString());
+    return Container(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if(_apiResponse.status == Status.ERROR)
+              Center(child: Container(child: Text("CONNECTION LOST. SCROLL DOWN TO REFRESH"))),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: refreshPage,
+                child: ListView(children:
+                parts),
+              ),
+            )
+          ]),
     );
+  }
+
+  Future<void> refreshPage() async {
+    Provider.of<PartViewModel>(context, listen: false).getParts();
   }
 }

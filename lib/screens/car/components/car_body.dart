@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gaadi/api/api.dart';
+import 'package:gaadi/api/api_response.dart';
 import 'package:gaadi/screens/car/components/search_field_car.dart';
-import 'package:gaadi/screens/car/components/single_car.dart';
-import 'package:gaadi/screens/single_car/single_product.dart';
+import 'package:gaadi/screens/car/components/single_car_page.dart';
+import 'package:gaadi/screens/single_car/single_view_pager.dart';
 import 'package:gaadi/size_config.dart';
+import 'package:provider/provider.dart';
+
+import '../car_view_model.dart';
 
 class CarBody extends StatefulWidget {
   const CarBody({Key? key}) : super(key: key);
@@ -12,42 +17,59 @@ class CarBody extends StatefulWidget {
 }
 
 class _CarBodyState extends State<CarBody> {
-  List<Widget> cars=[
-    SingleCar(
-        images: ["assets/demo/cars/hondaAccord.jpg", "assets/demo/cars/hondaAccord.jpg", "assets/demo/cars/hondaAccord.jpg"],
-        title: "Honda Accord", price: "1000000", rating: "3.5", review: "200", tap: SingleProduct()),
-    SingleCar(
-        images: ["assets/demo/cars/fordFocus.jpg", "assets/demo/cars/fordFocus.jpg", "assets/demo/cars/fordFocus.jpg"],
-        title: "Ford Focus", price: "200000", rating: "4.5", review: "120", tap: SingleProduct()),
-    SingleCar(
-        images: ["assets/demo/cars/hyundaiElantra.jpg", "assets/demo/cars/toyotaCorolla.jpg", "assets/demo/cars/hyundaiElantra.jpg"],
-        title: "Elantra", price: "1000000", rating: "2", review: "190", tap: SingleProduct()),
-    SingleCar(
-        images: ["assets/demo/cars/hondaAccord.jpg", "assets/demo/cars/hondaAccord.jpg", "assets/demo/cars/hondaAccord.jpg"],
-        title: "Honda Accird", price: "1000000", rating: "2", review: "120", tap: SingleProduct()),
-    SingleCar(
-        images: ["assets/demo/cars/hondaAccord.jpg", "assets/demo/cars/hondaAccord.jpg", "assets/demo/cars/hondaAccord.jpg"],
-        title: "Honda Accird", price: "1000000", rating: "2", review: "120", tap: SingleProduct()),
+  List<Widget> cars = [];
+  ApiResponse _apiResponse = ApiResponse.loading("Loading");
 
-  ];
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<CarViewModel>(context, listen: false).getVehicles();
+    });
+  }
 
-
-  
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      cars = Provider.of<CarViewModel>(context, listen: true)
+          .vehicles
+          .map((e) => SingleCarPage(
+              images: e.image == null
+                  ? []
+                  : e.image!.map((e) => imageDomain + "/" + e).toList(),
+              title: e.title,
+              price: e.price.toString(),
+              rating: "4.5",
+              review: "120",
+              user: e.user!.firstname,
+              tap: SingleViewPager(
+                id: e.id.toString(),
+                title: e.title,
+              )))
+          .toList();
+
+      _apiResponse =
+          Provider.of<CarViewModel>(context, listen: true).apiResponse;
+    });
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ListView(
-              children:cars
-            ),
-          )
-        ]
-      ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (_apiResponse.status == Status.ERROR)
+              Center(
+                  child: Container(
+                      child: Text("CONNECTION LOST. SCROLL DOWN TO REFRESH"))),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: refreshPage,
+                child: ListView(children: cars),
+              ),
+            )
+          ]),
     );
+  }
+
+  Future<void> refreshPage() async {
+    Provider.of<CarViewModel>(context, listen: false).getVehicles();
   }
 }

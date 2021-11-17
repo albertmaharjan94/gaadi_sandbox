@@ -17,7 +17,7 @@ class User {
     this.otp,
   });
 
-  final String? id;
+  final int? id;
   final String? firstname;
   final String? lastname;
   final String? email;
@@ -29,15 +29,15 @@ class User {
 
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["_id"],
-    firstname: json["firstname"],
-    lastname: json["lastname"],
-    contact: json["contact"],
-    email: json["email"],
-    password: json["password"],
-    token: json["token"],
-    hash: json["hash"],
-    otp: json["otp"],
+    id: int.parse(json["id"]),
+    firstname: json["firstname"] == null ? "" : json["firstname"],
+    lastname:json["lastname"] == null ? "" :  json["lastname"],
+    contact:json["contact"] == null ? "": json["contact"],
+    email:json["email"] == null ? "": json["email"],
+    password: json["password"] == null ? "" : json["password"],
+    token:json["token"] == null ? "":  json["token"],
+    hash:json["hash"] == null ? "": json["hash"],
+    otp: json["otp"] == null ? "" : json["otp"],
   );
 
 

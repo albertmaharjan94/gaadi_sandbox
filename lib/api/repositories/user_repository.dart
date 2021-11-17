@@ -11,7 +11,7 @@ class UserRepository {
   Future<AuthResponse> sendOTP(data) async{
     print("User Repo " + data);
     dynamic response = await api
-        .postData( data, "/sendOTP");
+        .postData( data, "/auth/sendOTP");
 
     print(response.toString());
     AuthResponse res = AuthResponse.fromJson(response);
@@ -22,7 +22,7 @@ class UserRepository {
     print("User Repo " + data);
 
     dynamic response = await api
-        .postData( data, "/verifyOTP");
+        .postData( data, "/auth/verifyOTP");
 
     print(response.toString());
     AuthResponse res = AuthResponse.fromJson(response);
@@ -35,7 +35,7 @@ class UserRepository {
     print("User Repo " + data);
 
     dynamic response = await api
-        .postData( data, "/login");
+        .postData( data, "/auth/login");
 
     print("Login res "+response.toString());
     AuthResponse res = AuthResponse.fromJson(response);
@@ -47,7 +47,7 @@ class UserRepository {
     print("User Repo " + data);
 
     dynamic response = await api
-        .postDataFast( data, "/login");
+        .postDataFast( data, "/auth/login");
 
     print("Login res "+response.toString());
     AuthResponse res = AuthResponse.fromJson(response);

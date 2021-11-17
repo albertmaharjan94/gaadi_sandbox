@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gaadi/screens/home/homepage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 const kPrimaryColor = Color(0xFFFF7643);
@@ -42,3 +43,26 @@ var authAlertStyle = AlertStyle(
     color: Color.fromRGBO(91, 55, 185, 1.0),
   ),
 );
+
+var commonAlertStyle = AlertStyle(
+  animationType: AnimationType.grow,
+  isCloseButton: false,
+  isOverlayTapDismiss: false,
+  descStyle: TextStyle(fontWeight: FontWeight.bold),
+  animationDuration: Duration(milliseconds: 400),
+  alertBorder: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(50.0),
+    side: BorderSide(
+      color: Colors.grey,
+    ),
+  ),
+  titleStyle: TextStyle(
+    color: Color.fromRGBO(91, 55, 185, 1.0),
+  ),
+);
+
+goHome(context, Widget w){
+  Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (c) => w),
+          (route) => false);
+}

@@ -10,18 +10,22 @@ class EPartSingleHeaderContact extends StatelessWidget {
       this.titleController,
       this.modelController,
       this.descriptionController,
+      this.brandController,
       this.priceController,
       required this.titleNode,
       required this.modelNode,
+      required this.brandNode,
       required this.descriptionNode,
       required this.nextNode})
       : super(key: key);
   TextEditingController? titleController = new TextEditingController();
+  TextEditingController? brandController = new TextEditingController();
   TextEditingController? modelController = new TextEditingController();
   TextEditingController? priceController = new TextEditingController();
   TextEditingController? descriptionController = new TextEditingController();
 
   FocusNode titleNode = FocusNode();
+  FocusNode brandNode = FocusNode();
   FocusNode modelNode = FocusNode();
   FocusNode priceNode = FocusNode();
   FocusNode nextNode = FocusNode();
@@ -49,7 +53,7 @@ class EPartSingleHeaderContact extends StatelessWidget {
                           onFieldSubmitted: (value){
                             titleNode.unfocus();
                             FocusScope.of(context)
-                                .requestFocus(modelNode);
+                                .requestFocus(brandNode);
                           },
                           validator: (value) {
                             // Null check
@@ -64,6 +68,29 @@ class EPartSingleHeaderContact extends StatelessWidget {
                               alignLabelWithHint: true,
                               hintText: "Eg. Headlight"),
                           controller: titleController,
+                        ),
+                      ),
+                      Container(
+                        child: TextFormField(
+                          focusNode: brandNode,
+                          onFieldSubmitted: (value){
+                            brandNode.unfocus();
+                            FocusScope.of(context)
+                                .requestFocus(modelNode);
+                          },
+                          validator: (value) {
+                            // Null check
+                            if (value == "") {
+                              return 'Please enter brand';
+                            }
+                            // success condition
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Brand",
+                              alignLabelWithHint: true,
+                              hintText: "Eg. Dunlop"),
+                          controller: brandController,
                         ),
                       ),
                       Container(

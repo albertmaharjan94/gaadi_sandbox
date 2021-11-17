@@ -2,9 +2,13 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/decoration/map_picker.dart';
 import 'package:gaadi/screens/home/dashboard/components/recent_product.dart';
 import 'package:gaadi/screens/home/dashboard/dashboard.dart';
 import 'package:gaadi/screens/home/maps/map.dart';
+
+import 'account/Sc.dart';
+import 'account/account.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,11 +30,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _selectedPageIndex = 0;
-    _pages = [
-      Dashboard(),
-      RecentProduct(title: "title"),
-      MapRender()
-    ];
 
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
@@ -44,7 +43,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(_pages);
     return WillPopScope(
       ///this method will be called on press of the back button
       onWillPop: () async {
@@ -63,7 +61,13 @@ class _HomePageState extends State<HomePage> {
           body: PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
-            children: _pages,
+            children: [
+              Dashboard(),
+              Account(),
+              MapPicker()
+              // MapRender(),
+              // MainCollapsingToolbar()
+            ],
             onPageChanged: (value) {
               setState(() => _selectedPageIndex = value);
               _pageController.jumpToPage(_selectedPageIndex);
@@ -93,8 +97,8 @@ class _HomePageState extends State<HomePage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.ac_unit),
-                label: 'Business',
+                icon: Icon(Icons.person),
+                label: 'Profile',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.map),

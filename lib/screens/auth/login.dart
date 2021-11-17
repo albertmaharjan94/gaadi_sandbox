@@ -349,9 +349,9 @@ class _LoginState extends State<Login> {
         desc: "Please try again",
         buttons: [
           DialogButton(
-            child: Text(
-              "Close",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              child: Text(
+                "Close",
+                style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () {
               Navigator.pop(context);

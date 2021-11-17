@@ -26,7 +26,7 @@ class _PartSingleHeaderState extends State<PartSingleHeader> {
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(color: Colors.amber),
-                      child: Image.asset(i, fit: BoxFit.cover,)
+                      child: Image.network(i, fit: BoxFit.cover,)
                   );
 
                 },

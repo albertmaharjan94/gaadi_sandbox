@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/car/search_car.dart';
 import 'package:gaadi/screens/search/search.dart';
 import 'package:gaadi/size_config.dart';
 
@@ -27,7 +28,7 @@ class SearchFieldCar extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          Search()));
+                          SearchCar()));
             },
             onChanged: (value) => print(value),
             decoration: InputDecoration(

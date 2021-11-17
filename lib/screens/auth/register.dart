@@ -590,9 +590,10 @@ class _RegisterState extends State<Register> {
       widget.changeSpinner(false);
       if (otp.success==true) {
         user.hash = otp.hash;
+        user.token = otp.authToken;
         localStorage.setString('Register', '1');
         localStorage.setString("PendingUser", jsonEncode(user.toJson()));
-
+        localStorage.setString("token", otp.authToken);
 
         Alert(
           context: context,
@@ -607,8 +608,9 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: (){
-                widget.changeIndex(OTP.routeIndex);
                 Navigator.pop(context);
+
+                widget.changeIndex(OTP.routeIndex);
               },
               color: Colors.greenAccent.shade700,
               radius: BorderRadius.circular(10.0),
@@ -620,9 +622,9 @@ class _RegisterState extends State<Register> {
         Alert(
           context: context,
           style: authAlertStyle,
-          type: AlertType.success,
+          type: AlertType.error,
           title: "Registration Fail",
-          desc: "Please try again.",
+          desc: otp.message.toString(),
           buttons: [
             DialogButton(
               child: Text(

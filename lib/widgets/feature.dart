@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gaadi/api/api.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/size_config.dart';
 
@@ -43,8 +44,8 @@ class _FeatureState extends State<Feature> {
                 tag: widget.text!,
                 child: ClipRRect(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-                    child: Image.asset(
-                      widget.image!,
+                    child: Image.network(
+                      imageDomain + "/"  + widget.image!,
                       fit: BoxFit.cover,
                     )),
               ),

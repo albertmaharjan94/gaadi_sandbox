@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gaadi/constants.dart';
+import 'package:gaadi/screens/part/search_part.dart';
 import 'package:gaadi/screens/search/search.dart';
 import 'package:gaadi/size_config.dart';
 
@@ -27,7 +28,7 @@ class SearchFieldPart extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          Search()));
+                          SearchPart()));
             },
             onChanged: (value) => print(value),
             decoration: InputDecoration(
@@ -38,7 +39,7 @@ class SearchFieldPart extends StatelessWidget {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
-                hintText: "Search part...",
+                hintText: "Search parts...",
                 prefixIcon: Icon(Icons.search)),
           ),
         ),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gaadi/api/models/user.dart';
 import 'package:gaadi/constants.dart';
 import 'package:gaadi/services/phone_call.dart';
 
 class ButtomContactBar extends StatelessWidget {
-  ButtomContactBar({Key? key, required this.tel}) : super(key: key);
+  ButtomContactBar({Key? key, required this.tel, this.from, this.bookNow}) : super(key: key);
   String tel = "";
+  User? to;
+  User? from;
+  Function? bookNow = ()=> print("Booknow");
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,7 @@ class ButtomContactBar extends StatelessWidget {
               ),
             ),
           ),
+          if(from!=null)
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 5),
@@ -46,7 +51,9 @@ class ButtomContactBar extends StatelessWidget {
                             side: BorderSide(color: kPrimaryColor)))),
                 child: Text("Book Now", style: TextStyle(color: Colors.black),),
                 onPressed: () {
-                  PhoneCall.makePhoneCall("tel://$tel");
+                  if(bookNow != null){
+                    bookNow!();
+                  }
                 },
               ),
             ),

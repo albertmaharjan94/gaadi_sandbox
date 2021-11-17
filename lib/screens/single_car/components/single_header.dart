@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:gaadi/api/api.dart';
 import 'package:gaadi/size_config.dart';
 
 class SingleHeader extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SingleHeaderState extends State<SingleHeader> {
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(color: Colors.amber),
-                  child: Image.asset(
+                  child: Image.network(
                     i,
                     fit: BoxFit.cover,
                   ));

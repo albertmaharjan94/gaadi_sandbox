@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gaadi/Transitions/RouteSlide.dart';
 import 'package:gaadi/screens/home/dashboard/components/card.dart';
 import 'package:gaadi/screens/home/dashboard/components/section_title.dart';
-import 'package:gaadi/screens/single_car/single_product.dart';
 import 'package:gaadi/size_config.dart';
 
 class SimilarProduct extends StatefulWidget {
@@ -76,7 +75,7 @@ class _SimilarProductState extends State<SimilarProduct> {
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         child: HomeCard(product: demoRecent[index]),
                         onTap: () {
-                          Navigator.push(context, SlideLeftRoute(page: SingleProduct()));
+                          Navigator.push(context, SlideLeftRoute(page: Container()));
                           print(index);
                         },
                       ));

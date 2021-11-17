@@ -352,16 +352,22 @@ class _OTPState extends State<OTP> {
         Map<String, dynamic> _user = jsonDecode(pendingUser);
         _pendingUser!.otp = otpCode;
 
-        AuthResponse otp = await repo.verifyOTP(jsonEncode(_pendingUser));
-
-        if(otp.success == true){
+        AuthResponse res = await repo.verifyOTP(jsonEncode(_pendingUser));
+        print("SCREEN DATA :: "+ res.authToken.toString());
+        if(res.success == true){
           sharedPref.remove("Register");
-          // sharedPref.remove("PendingUser");
-          sharedPref.setString("token", otp.authToken);
-          _pendingUser!.token = otp.authToken;
-          print(_pendingUser.toString());
-          sharedPref.setString("LoggedInUser", jsonEncode(_pendingUser));
+          sharedPref.setString("token", res.authToken);
+          print(res.user!.toJson().toString());
+
+          sharedPref.setString("token", res.authToken);
+          res.user!.token = res.authToken;
+          res.user!.password = _pendingUser!.password;
+          res.user!.contact = _pendingUser!.contact;
+          sharedPref.setString("LoggedInUser", jsonEncode(res.user));
+
+          sharedPref.remove("PendingUser");
           widget.changeSpinner(false);
+          Navigator.pop(context);
           Navigator.of(context).pushReplacementNamed(HomePage.routeName);
         }else{
           widget.changeSpinner(false);
@@ -370,7 +376,7 @@ class _OTPState extends State<OTP> {
             style: authAlertStyle,
             type: AlertType.error,
             title: "OTP Error",
-            desc: otp.message,
+            desc: res.message,
             buttons: [
               DialogButton(
                 child: Text(
