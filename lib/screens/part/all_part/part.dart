@@ -66,7 +66,7 @@ class _PartState extends State<Part> {
                     collapsedHeight: 70,
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.white,
-                    flexibleSpace: Container(
+                      flexibleSpace: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: SearchFieldPart()),
                     pinned: true,
